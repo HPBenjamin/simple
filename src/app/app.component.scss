@@ -2,6 +2,11 @@
     height: 100vh;
 }
 
+.logo {
+    width: 100px;
+    height: auto;
+}
+
 .menu-icon {
     cursor: pointer;
 
@@ -67,4 +72,5 @@
 .router-container {
     padding-left: 56px;
     padding-top: 16px;
+    padding-right: 56px;
 }

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { MatDialogRef } from '@angular/material/dialog';
 import { User } from 'src/models/user.class';
 
 @Component({
@@ -7,19 +9,29 @@ import { User } from 'src/models/user.class';
   styleUrls: ['./dialog-add-user.component.scss']
 })
 export class DialogAddUserComponent implements OnInit {
-  user = new User();
+  user: User = new User();
   birthDate: Date;
+  loading = false;
   
-  
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<DialogAddUserComponent>, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
   }
 
   saveUser() {
+    this.loading = true;
     this.user.birthDate = this.birthDate.getTime();
     console.log('Users:', this.user);
+
+    this.firestore
+      .collection('users')
+      .add(this.user.toJSON())
+      .then((result: any) => {
+        this.loading = false;
+        this.dialogRef.close();
+        console.log('adding User finished', result);
+      });
   }
 
-
+  
 }
